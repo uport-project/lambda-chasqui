@@ -1,0 +1,50 @@
+{
+  "name": "lambda-chasqui",
+  "version": "1.0.0",
+  "description": "uPort Messenger Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose --runInBand",
+    "coverage": "jest --coverage",
+    "tdd": "jest --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uport-project/lambda-chasqui.git"
+  },
+  "contributors": [
+    {
+      "name": "Andres Junge",
+      "email": "andres.junge@consensys.net"
+    },
+    {
+      "name": "Cristobal Castillo",
+      "email": "cristobal.castillo@consensys.net"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/uport-project/lambda-chasqui/issues"
+  },
+  "homepage": "https://github.com/uport-project/lambda-chasqui#readme",
+  "devDependencies": {
+    "aws-sdk-mock": "^1.7.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "jest": "^21.2.0",
+    "pg": "^7.4.0",
+    "serverless-offline": "^3.16.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.175.0",
+    "serverless-kms-secrets": "^1.0.2",
+    "serverless-webpack": "^3.1.0",
+    "webpack": "^3.6.0",
+    "webpack-node-externals": "^1.6.0"
+  }
+}
