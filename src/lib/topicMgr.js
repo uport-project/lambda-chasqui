@@ -5,6 +5,7 @@ class TopicMgr {
 
     constructor() {
         this.pgUrl = null
+        this.expiration = 60
     }
 
     isSecretsSet() {
@@ -26,9 +27,9 @@ class TopicMgr {
         try {
             await client.connect()
             const res = await client.query(
-                "INSERT INTO topics(id) \
-             VALUES ($1);"
-                , [topicId]);
+                "INSERT INTO topics(id, expiration) \
+             VALUES ($1, now() + interval '$2' second);"
+                , [topicId, this.expiration]);
             return;
         } catch (e) {
             throw (e);
@@ -48,7 +49,12 @@ class TopicMgr {
 
         try {
             await client.connect()
-            //TODO: query
+            const res = await client.query(
+                "UPDATE topics SET \
+                content = $2 WHERE \
+                id = $1;"
+                , [topicId, content]);
+            return;
         } catch (e) {
             throw (e);
         } finally {
@@ -56,7 +62,8 @@ class TopicMgr {
         }
     }
 
-    async delete(address, networkName) {
+    async delete(topicId) {
+        if (!topicId) throw ('no topicId');
         if (!this.pgUrl) throw ('no pgUrl set')
 
         const client = new Client({
@@ -65,7 +72,12 @@ class TopicMgr {
 
         try {
             await client.connect()
-            //TODO: query
+            const res = await client.query(
+                "DELETE FROM topics \
+                WHERE id = $1;"
+                , [topicId]);
+            return;
+
         } catch (e) {
             throw (e);
         } finally {
