@@ -9,8 +9,11 @@ class TopicGetHandler {
             let topic;
             topicId = event.pathParameters.id
             try {
-                topic = await this.topicMgr.create(topicId)
-                console.log("topic created: " + topicId)
+                topic = await this.topicMgr.read(topicId)
+                if (!topic){
+                    topic = await this.topicMgr.create(topicId)
+                    console.log("topic created: " + topicId);
+                }
             } catch (error) {
                 console.log("Error on this.topicMgr.create")
                 console.log(error)

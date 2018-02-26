@@ -38,6 +38,28 @@ class TopicMgr {
         }
     }
 
+        async read(topicId) {
+            if (!topicId) throw ('no topicId')
+            if (!this.pgUrl) throw ('no pgUrl set')
+
+            const client = new Client({
+                connectionString: this.pgUrl,
+            })
+
+            try {
+                await client.connect()
+                const res = await client.query(
+                    "SELECT * FROM topics \
+                        WHERE id=$1 \
+                        AND expiration > now()", [topicId]);
+                return res.rows[0];
+            } catch (e) {
+                throw (e);
+            } finally {
+                await client.end()
+            }
+        }
+
     async update(topicId, content) {
         if (!topicId) throw ('no topicId')
         if (!content) throw ('no content')
