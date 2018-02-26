@@ -30,7 +30,7 @@ class TopicMgr {
                 "INSERT INTO topics(id, expiration) \
              VALUES ($1, now() + interval '$2' second);"
                 , [topicId, this.expiration]);
-            return;
+            return res.rows[0];
         } catch (e) {
             throw (e);
         } finally {
@@ -38,27 +38,27 @@ class TopicMgr {
         }
     }
 
-        async read(topicId) {
-            if (!topicId) throw ('no topicId')
-            if (!this.pgUrl) throw ('no pgUrl set')
+    async read(topicId) {
+        if (!topicId) throw ('no topicId')
+        if (!this.pgUrl) throw ('no pgUrl set')
 
-            const client = new Client({
-                connectionString: this.pgUrl,
-            })
+        const client = new Client({
+            connectionString: this.pgUrl,
+        })
 
-            try {
-                await client.connect()
-                const res = await client.query(
-                    "SELECT * FROM topics \
-                        WHERE id=$1 \
-                        AND expiration > now()", [topicId]);
-                return res.rows[0];
-            } catch (e) {
-                throw (e);
-            } finally {
-                await client.end()
-            }
+        try {
+            await client.connect()
+            const res = await client.query(
+                "SELECT * FROM topics \
+                    WHERE id=$1 \
+                    AND expiration > now()", [topicId]);
+            return res.rows[0];
+        } catch (e) {
+            throw (e);
+        } finally {
+            await client.end()
         }
+    }
 
     async update(topicId, content) {
         if (!topicId) throw ('no topicId')

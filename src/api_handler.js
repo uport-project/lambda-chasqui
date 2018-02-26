@@ -7,7 +7,7 @@ const TopicGetHandler = require('./api/topic_get');
 const TopicPostHandler = require('./api/topic_post');
 const TopicDeleteHandler = require('./api/topic_delete');
 
-let topicMgr = new TopicMgr(s3Mgr);
+let topicMgr = new TopicMgr();
 
 let topicGetHandler = new TopicGetHandler(topicMgr);
 module.exports.topic_get = (event, context, callback) => { preHandler(topicGetHandler, event, context, callback) }
@@ -20,13 +20,13 @@ module.exports.topic_delete = (event, context, callback) => { preHandler(topicDe
 
 const preHandler = (handler, event, context, callback) => {
     console.log(event)
-    if (!s3Mgr.isSecretsSet()) {
+    if (!topicMgr.isSecretsSet()) {
         const kms = new AWS.KMS();
         kms.decrypt({
             CiphertextBlob: Buffer(process.env.SECRETS, 'base64')
         }).promise().then(data => {
             const decrypted = String(data.Plaintext)
-            s3Mgr.setSecrets(JSON.parse(decrypted))
+            topicMgr.setSecrets(JSON.parse(decrypted))
             doHandler(handler, event, context, callback)
         })
     } else {

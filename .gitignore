@@ -7,3 +7,9 @@ jspm_packages
 
 # Serverless directories
 .serverless
+
+#Other
+.DS_Store
+
+# coverage
+coverage

@@ -11,7 +11,7 @@ class TopicPostHandler {
         try {
             body = JSON.parse(event.body)
         } catch (e) {
-            cb({ code: 403, message: 'no json body: ' + e.toString() })
+            cb({ code: 403, message: 'no json body'})
             return;
         }
 
