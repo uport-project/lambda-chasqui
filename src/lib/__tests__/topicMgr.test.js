@@ -11,7 +11,7 @@ const TopicMgr = require("../topicMgr");
 
 describe("TopicMgr", () => {
     let sut;
-    let fakeTopicId = "fakeTopic";
+    let topicId = "fakeTopic";
     let content = "topic content"
     let expiration = 60;
 
@@ -55,18 +55,18 @@ describe("TopicMgr", () => {
         pgClientMock.query=jest.fn(()=>{
         return Promise.resolve({
             rows:[{
-                topic: fakeTopicId
+                topic: topicId
             }]
         })})
 
-        sut.create(fakeTopicId)
+        sut.create(topicId)
         .then(resp => {
             expect(pgClientMock.connect).toBeCalled()
             expect(pgClientMock.query).toBeCalled()
             expect(pgClientMock.query).toBeCalledWith(
                 "INSERT INTO topics(id, expiration) \
              VALUES ($1, now() + interval '$2' second);"
-             , [fakeTopicId, expiration]);
+             , [topicId, expiration]);
             expect(pgClientMock.end).toBeCalled()
             expect(resp.topic).toEqual("fakeTopic")
           done();
@@ -92,7 +92,7 @@ describe("TopicMgr", () => {
 
     test("read() happy path", done => {
         let fakeResponse = {
-            topic: fakeTopicId,
+            topic: topicId,
             expiration: Date.now(),
             content: "fakecontent"
         }
@@ -103,14 +103,14 @@ describe("TopicMgr", () => {
             return Promise.resolve({ rows: [fakeResponse]});
         });
 
-        sut.read(fakeTopicId)
+        sut.read(topicId)
         .then(resp => {
             expect(pgClientMock.connect).toBeCalled();
             expect(pgClientMock.query).toBeCalled();
             expect(pgClientMock.query).toBeCalledWith(
                 "SELECT * FROM topics \
                     WHERE id=$1 \
-                    AND expiration > now()", [fakeTopicId]);
+                    AND expiration > now()", [topicId]);
             expect(pgClientMock.end).toBeCalled();
             expect(resp).toEqual(fakeResponse);
             done();
@@ -136,7 +136,7 @@ describe("TopicMgr", () => {
 
     test("update() no content ", done => {
         sut
-        .update(fakeTopicId)
+        .update(topicId)
         .then(resp => {
             fail("shouldn't return");
             done();
@@ -148,7 +148,7 @@ describe("TopicMgr", () => {
     });
 
     test("update() happy path", done => {
-      let fakeResponse = { topic: fakeTopicId, expiration: Date.now(), content: "fakecontent" };
+      let fakeResponse = { topic: topicId, expiration: Date.now(), content: "fakecontent" };
       pgClientMock.connect = jest.fn();
       pgClientMock.connect.mockClear();
       pgClientMock.end.mockClear();
@@ -157,7 +157,7 @@ describe("TopicMgr", () => {
       });
 
       sut
-        .update(fakeTopicId, content)
+        .update(topicId, content)
         .then(resp => {
           expect(pgClientMock.connect).toBeCalled();
           expect(pgClientMock.query).toBeCalled();
@@ -165,7 +165,7 @@ describe("TopicMgr", () => {
                 "UPDATE topics SET \
                 content = $2 WHERE \
                 id = $1;"
-                , [fakeTopicId, content]);
+                , [topicId, content]);
           expect(pgClientMock.end).toBeCalled();
           done();
         })
@@ -190,7 +190,7 @@ describe("TopicMgr", () => {
     });
 
         test("delete() happy path", done => {
-          let fakeResponse = { topic: fakeTopicId, expiration: Date.now(), content: "fakecontent" };
+          let fakeResponse = { topic: topicId, expiration: Date.now(), content: "fakecontent" };
           pgClientMock.connect = jest.fn();
           pgClientMock.connect.mockClear();
           pgClientMock.end.mockClear();
@@ -199,14 +199,14 @@ describe("TopicMgr", () => {
           });
 
           sut
-            .delete(fakeTopicId)
+            .delete(topicId)
             .then(resp => {
               expect(pgClientMock.connect).toBeCalled();
               expect(pgClientMock.query).toBeCalled();
               expect(pgClientMock.query).toBeCalledWith(
                 "DELETE FROM topics \
                 WHERE id = $1;"
-                , [fakeTopicId]);
+                , [topicId]);
               expect(pgClientMock.end).toBeCalled();
               done();
             })

@@ -14,7 +14,8 @@ describe("TopicPostHandler", () => {
     beforeAll(() => {
         topicMgr = {
             read: jest.fn(),
-            create: jest.fn()
+            create: jest.fn(),
+            update: jest.fn()
         };
         sut = new TopicPostHandler(topicMgr);
     });
@@ -33,15 +34,19 @@ describe("TopicPostHandler", () => {
             });
         });
 
-        test.skip("no topic id", async () => {
-          await sut.handle({pathParameters: {other: "thing"}}, record, (err, res) => {
-            expect(err).not.toBeNull();
-            expect(err.code).toEqual(400);
-            expect(err.message).toEqual("no topic id");
-          });
+        test("no topic id", async () => {
+            await sut.handle({ pathParameters: {other: "thing"}, body: JSON.stringify(record)}, null, (err, res) => {
+                expect(err).not.toBeNull();
+                expect(err.code).toEqual(400);
+                expect(err.message).toEqual("No topic id");
+            });
         });
 
-        test.skip("happy path", async () => {
+        test("happy path", async () => {
+            await sut.handle({ pathParameters: {id: newTopicId}, body: JSON.stringify(record)}, null, (err, res) => {
+                expect(err).toBeNull();
+                expect(res.message).toEqual("updated");
+            });
         });
 
     });
