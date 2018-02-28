@@ -39,7 +39,7 @@ functions:
     description: Creates a new topic
     events:
       - http:
-         path: topic
+         path: topic/{id}
          method: post
 
   topic_get:
