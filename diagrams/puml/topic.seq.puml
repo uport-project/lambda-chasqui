@@ -1,0 +1,38 @@
+@startuml
+participant "dApp" as dApp
+participant "uPort Mobile App" as uPort
+participant "uPort::chasqui" as chasqui
+participant "Postgres" as postgres
+
+dApp -> dApp: Random <topicId>
+
+dApp -> chasqui: Create topic endpoint\nGET /topic/<topicId>
+activate chasqui
+chasqui -> postgres: INSERT INTO topics <topicId>
+dApp <- chasqui: 200 Ok
+deactivate chasqui
+
+uPort -> chasqui: Post message\nPOST /topic/<topicId>
+activate chasqui
+chasqui -> postgres: UPDATE topics <message>
+uPort <- chasqui: 200 OK: Message updated
+deactivate chasqui
+
+dApp -> chasqui: Retrieve message\nGET /topic/<topicId>
+activate chasqui
+chasqui -> postgres: SELECT FROM topics <message>
+activate postgres
+chasqui <-postgres: <message>
+deactivate postgres
+dApp <- chasqui: 200 <message>
+deactivate chasqui
+
+dApp -> chasqui: Delete endpoint\nDELETE /topic/<topicId>
+activate chasqui
+chasqui -> postgres: DELETE FROM topics <topicId>
+dApp <- chasqui: 200 OK: Deleted
+deactivate chasqui
+
+
+
+@enduml
