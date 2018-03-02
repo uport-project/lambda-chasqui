@@ -3,10 +3,10 @@
 
 _(Quechua) The chasquis were the messengers of the Inca empire_
 
-[![CircleCI](https://circleci.com/gh/uport-project/lambda-chasqui.svg? style=svg&circle-                                                   token=f536b0a56ba4f26afaf4b2d4dbf29962e9357108)](https://circleci.  com/gh/uport-project/lambda-chasqui)
+[![CircleCI](https://circleci.com/gh/uport-project/lambda-chasqui.svg?style=svg&circle-token=c0c1f448b58e3b215834eaa9cad4c3a59c0c7226)](https://circleci.com/gh/uport-project/lambda-chasqui)
 
+[![codecov](https://codecov.io/gh/uport-project/lambda-chasqui/branch/master/graph/badge.svg?token=Y8oBEHJYIL)](https://codecov.io/gh/uport-project/lambda-chasqui)
 
-[![codecov](https://codecov.io/gh/uport-project/lambda-chasqui/branch/ master/graph/badge.svg?token=dM67JrwqVX)](https://codecov.io/gh/    uport-project/lambda-chasqui)
 
 ## Description
 Chasqui is a server that allows communication between dApps, mobile apps (like uPort Mobile) and servers
