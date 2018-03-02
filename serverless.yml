@@ -1,6 +1,6 @@
 service: chasqui
 
-frameworkVersion: "=1.26.0"
+
 
 provider:
   name: aws
