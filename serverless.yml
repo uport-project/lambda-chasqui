@@ -1,6 +1,4 @@
-service: chasqui
-
-
+service: lambda-chasqui
 
 provider:
   name: aws

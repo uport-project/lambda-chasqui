@@ -1,6 +1,6 @@
 {
   "name": "lambda-chasqui",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "uPort Messenger Service",
   "main": "index.js",
   "scripts": {
