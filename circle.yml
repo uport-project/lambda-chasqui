@@ -7,7 +7,7 @@ dependencies:
     - sudo apt-get update
   override:
     - npm install --no-optional
-    - npm install -g serverless@1.26.0
+    - npm install -g serverless
     - npm install -g codecov
 
 test:
