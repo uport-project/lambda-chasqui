@@ -1,23 +1,5 @@
 import { Client } from 'pg'
-
-const CREATE_QUERY = `
-  INSERT INTO topics(id, expiration) 
-  VALUES ($1, now() + interval '$2' second);
-`
-const READ_QUERY = `
-  SELECT * FROM topics
-  WHERE id=$1
-  AND expiration > now();
-`
-const UPDATE_QUERY = `
-  UPDATE topics 
-  SET content = $2 
-  WHERE id = $1;
-`
-const DELETE_QUERY = `
-  DELETE FROM topics
-  WHERE id = $1;
-`
+import { CREATE_QUERY, READ_QUERY, UPDATE_QUERY, DELETE_QUERY } from './queries.js'
 
 /**
  * @classdesc

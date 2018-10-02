@@ -27,7 +27,7 @@ class TopicPostHandler {
             topicId = event.pathParameters.id
             try {
                 // First check for existing topic
-                topic = await this.topicMgr.read(topicId)
+                let topic = await this.topicMgr.read(topicId)
                 if (!topic) {
                   // Create topic if none exists, and set response message to 'created'
                   message = 'created'

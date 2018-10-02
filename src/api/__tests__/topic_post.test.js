@@ -45,7 +45,7 @@ describe("TopicPostHandler", () => {
         test("happy path", async () => {
             await sut.handle({ pathParameters: {id: newTopicId}, body: JSON.stringify(record)}, null, (err, res) => {
                 expect(err).toBeNull();
-                expect(res.message).toEqual("updated");
+                expect(res.message).toEqual("created");
             });
         });
 
