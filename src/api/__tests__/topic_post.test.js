@@ -36,18 +36,18 @@ describe("TopicPostHandler", () => {
 
         test("no topic id", async () => {
             await sut.handle({ pathParameters: {other: "thing"}, body: JSON.stringify(record)}, null, (err, res) => {
-                expect(err).not.toBeNull();
-                expect(err.code).toEqual(400);
-                expect(err.message).toEqual("No topic id");
-            });
+                expect(err).toBeNull()
+                expect(res.code).toEqual(201)
+                expect(res.body.message).toEqual('created')
+                expect(res.headers.Location).toMatch(/^\/topic\/[a-zA-Z0-9_-]{16}/)
+              });
         });
 
         test("happy path", async () => {
             await sut.handle({ pathParameters: {id: newTopicId}, body: JSON.stringify(record)}, null, (err, res) => {
                 expect(err).toBeNull();
-                expect(res.message).toEqual("created");
+                expect(res.body.message).toEqual('updated');
             });
         });
-
     });
 });

@@ -1,4 +1,4 @@
-const cryto = require('crypto')
+const crypto = require('crypto')
 
 const BYTELEN = 12
 

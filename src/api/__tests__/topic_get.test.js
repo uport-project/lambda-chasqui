@@ -41,7 +41,7 @@ describe("TopicGetHandler", () => {
         {},
         (err, res) => {
           expect(err).toBeNull();
-          expect(res).toEqual({
+          expect(res.body).toEqual({
             topic: {
               id: newTopicId,
               content: ""
@@ -55,7 +55,7 @@ describe("TopicGetHandler", () => {
       topicMgr.read.mockReturnValue(record);
       await sut.handle({ pathParameters: { id: topicId } }, {}, (err, res) => {
         expect(err).toBeNull();
-        expect(res).toEqual({ topic: record });
+        expect(res.body).toEqual({ topic: record });
       });
     });
   });

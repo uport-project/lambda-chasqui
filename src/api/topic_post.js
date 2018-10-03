@@ -28,7 +28,7 @@ class TopicPostHandler {
                 cb({ code: 500, message: error.message })
                 return
             }
-            cb(null, { code: 200, data: { message: "updated" } });
+            cb(null, { code: 200, body: { message: "updated" } });
             return;
         } else {
           // Create a new (unused) topic
@@ -39,7 +39,9 @@ class TopicPostHandler {
           } while (topic)
           topic = await this.topicMgr.create(topicId)
           console.log("topic created: " + topicId)
-          cb(null, { code: 201, data: { message: "created" }, headers: {Location: `/topic/${topicId}`})
+          // Set topic after creating new one
+          await this.topicMgr.update(topicId, body)
+          cb(null, { code: 201, body: { message: "created" }, headers: {Location: `/topic/${topicId}`} })
           return
         }
 
