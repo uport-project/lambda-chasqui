@@ -42,10 +42,9 @@ const doHandler = (handler, event, context, callback) => {
             response = {
                 statusCode: code || 200,
                 headers,
-                body: JSON.stringify({
-                    status: 'success',
-                    ...body
-                })
+                body: JSON.stringify(Object.assign({
+                    status: 'success'
+                }, body))
             }
         } else {
             //console.log(err);
