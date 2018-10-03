@@ -1,3 +1,4 @@
+const { randomString } = require('../lib/util.js')
 
 class TopicPostHandler {
     constructor(topicMgr) {
@@ -27,22 +28,18 @@ class TopicPostHandler {
                 cb({ code: 500, message: error.message })
                 return
             }
-            cb(null, { message: "updated" });
+            cb(null, { code: 200, data: { message: "updated" } });
             return;
         } else {
-          // Create a new topic
-          let topicId = randomString(16)
-          let topic = await this.topicMgr.read(topicId)
-          while (topic) {
-            topicId = randomString(16)
+          // Create a new (unused) topic
+          let topicId, topic
+          do {
+            topicId = randomString()
             topic = await this.topicMgr.read(topicId)
-          }
-
-          // Create topic if none exists, and set response message to 'created'
-          message = 'created'
+          } while (topic)
           topic = await this.topicMgr.create(topicId)
           console.log("topic created: " + topicId)
-          cb(null, { message: "created" })
+          cb(null, { code: 201, data: { message: "created" }, headers: {Location: `/topic/${topicId}`})
           return
         }
 
