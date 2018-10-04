@@ -32,9 +32,9 @@ custom:
   kmsSecrets: ${file(kms-secrets.${opt:stage, self:provider.stage}.${opt:region, self:provider.region}.yml)}
 
 functions:
-  topic_create:
-    handler: src/api_handler.topic_create
-    description: Creates a new topic
+  topic_post:
+    handler: src/api_handler.topic_post
+    description: Creates a new topic, or updates an existing one
     events:
       - http:
          path: topic/{id}

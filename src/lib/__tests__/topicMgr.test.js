@@ -7,7 +7,10 @@ let pgClientMock = {
 Client.mockImplementation(() => {
   return pgClientMock;
 });
+
 const TopicMgr = require("../topicMgr");
+import { CREATE_QUERY, READ_QUERY, UPDATE_QUERY, DELETE_QUERY } from '../queries.js'
+
 
 describe("TopicMgr", () => {
     let sut;
@@ -63,10 +66,7 @@ describe("TopicMgr", () => {
         .then(resp => {
             expect(pgClientMock.connect).toBeCalled()
             expect(pgClientMock.query).toBeCalled()
-            expect(pgClientMock.query).toBeCalledWith(
-                "INSERT INTO topics(id, expiration) \
-             VALUES ($1, now() + interval '$2' second);"
-             , [topicId, expiration]);
+            expect(pgClientMock.query).toBeCalledWith(CREATE_QUERY, [topicId, expiration])
             expect(pgClientMock.end).toBeCalled()
             expect(resp.topic).toEqual("fakeTopic")
           done();
@@ -107,10 +107,7 @@ describe("TopicMgr", () => {
         .then(resp => {
             expect(pgClientMock.connect).toBeCalled();
             expect(pgClientMock.query).toBeCalled();
-            expect(pgClientMock.query).toBeCalledWith(
-                "SELECT * FROM topics \
-                    WHERE id=$1 \
-                    AND expiration > now()", [topicId]);
+            expect(pgClientMock.query).toBeCalledWith(READ_QUERY, [topicId]);
             expect(pgClientMock.end).toBeCalled();
             expect(resp).toEqual(fakeResponse);
             done();
@@ -161,11 +158,7 @@ describe("TopicMgr", () => {
         .then(resp => {
           expect(pgClientMock.connect).toBeCalled();
           expect(pgClientMock.query).toBeCalled();
-          expect(pgClientMock.query).toBeCalledWith(
-                "UPDATE topics SET \
-                content = $2 WHERE \
-                id = $1;"
-                , [topicId, content]);
+          expect(pgClientMock.query).toBeCalledWith(UPDATE_QUERY, [topicId, content]);
           expect(pgClientMock.end).toBeCalled();
           done();
         })
@@ -203,10 +196,7 @@ describe("TopicMgr", () => {
             .then(resp => {
               expect(pgClientMock.connect).toBeCalled();
               expect(pgClientMock.query).toBeCalled();
-              expect(pgClientMock.query).toBeCalledWith(
-                "DELETE FROM topics \
-                WHERE id = $1;"
-                , [topicId]);
+              expect(pgClientMock.query).toBeCalledWith(DELETE_QUERY, [topicId]);
               expect(pgClientMock.end).toBeCalled();
               done();
             })
@@ -215,7 +205,4 @@ describe("TopicMgr", () => {
               done();
             });
         });
-
-
-
 });

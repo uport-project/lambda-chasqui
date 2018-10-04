@@ -36,14 +36,15 @@ const preHandler = (handler, event, context, callback) => {
 
 const doHandler = (handler, event, context, callback) => {
     handler.handle(event, context, (err, resp) => {
-        let response;
+        let response
         if (err == null) {
+            let { code, headers, body } = resp
             response = {
-                statusCode: 200,
-                body: JSON.stringify({
-                    status: 'success',
-                    data: resp
-                })
+                statusCode: code || 200,
+                headers,
+                body: JSON.stringify(Object.assign({
+                    status: 'success'
+                }, body))
             }
         } else {
             //console.log(err);

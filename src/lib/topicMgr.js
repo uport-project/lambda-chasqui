@@ -1,6 +1,13 @@
 import { Client } from 'pg'
+import { CREATE_QUERY, READ_QUERY, UPDATE_QUERY, DELETE_QUERY } from './queries.js'
 
-
+/**
+ * @classdesc
+ * Main class for managing topics on the Chasqui service.  A topic is simply
+ * an id with a message associated with it that supports CRUD operations,
+ * each of which is implemented as an asynchronous method of this class.
+ * 
+ */
 class TopicMgr {
 
     constructor() {
@@ -26,10 +33,7 @@ class TopicMgr {
 
         try {
             await client.connect()
-            const res = await client.query(
-                "INSERT INTO topics(id, expiration) \
-             VALUES ($1, now() + interval '$2' second);"
-                , [topicId, this.expiration]);
+            const res = await client.query(CREATE_QUERY, [topicId, this.expiration]);
             return res.rows[0];
         } catch (e) {
             throw (e);
@@ -48,10 +52,7 @@ class TopicMgr {
 
         try {
             await client.connect()
-            const res = await client.query(
-                "SELECT * FROM topics \
-                    WHERE id=$1 \
-                    AND expiration > now()", [topicId]);
+            const res = await client.query(READ_QUERY, [topicId]);
             return res.rows[0];
         } catch (e) {
             throw (e);
@@ -71,11 +72,7 @@ class TopicMgr {
 
         try {
             await client.connect()
-            const res = await client.query(
-                "UPDATE topics SET \
-                content = $2 WHERE \
-                id = $1;"
-                , [topicId, content]);
+            const res = await client.query(UPDATE_QUERY, [topicId, content]);
             return;
         } catch (e) {
             throw (e);
@@ -94,20 +91,14 @@ class TopicMgr {
 
         try {
             await client.connect()
-            const res = await client.query(
-                "DELETE FROM topics \
-                WHERE id = $1;"
-                , [topicId]);
+            const res = await client.query(DELETE_QUERY, [topicId])
             return;
-
         } catch (e) {
             throw (e);
         } finally {
             await client.end()
         }
     }
-
-
 }
 
 module.exports = TopicMgr
