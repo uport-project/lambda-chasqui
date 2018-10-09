@@ -37,11 +37,11 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "jest": "^21.2.0",
-    "pg": "^7.4.0",
     "serverless-offline": "^3.16.0"
   },
   "dependencies": {
     "aws-sdk": "^2.175.0",
+    "pg": "^7.4.0",
     "serverless-kms-secrets": "^1.0.2",
     "serverless-webpack": "^3.1.0",
     "webpack": "^3.6.0",

@@ -1,6 +1,6 @@
 export const CREATE_QUERY = `
   INSERT INTO topics(id, expiration) 
-  VALUES ($1, now() + interval '$2' second);
+  VALUES ($1, now() + ($2 || ' second')::interval);
 `
 export const READ_QUERY = `
   SELECT * FROM topics
