@@ -20,7 +20,7 @@ class TopicGetHandler {
                 cb({ code: 500, message: error.message })
                 return;
             }
-            cb(null, { body: { topic: topic } })
+            cb(null, { body: { message: topic } })
             return;
         } else {
             cb({ code: 400, message: "No topic id" });

@@ -9,6 +9,11 @@ class TopicDeleteHandler {
             let topicId;
             topicId = event.pathParameters.id
             try {
+                let topic = await this.topicMgr.read(topicId)
+                if (!topic) {
+                  cb({ code: 404, message: 'topic not found'})
+                  return
+                }
                 await this.topicMgr.delete(topicId)
                 console.log("topic deleted: " + topicId)
             } catch (error) {

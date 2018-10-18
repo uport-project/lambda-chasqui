@@ -19,7 +19,6 @@ let topicDeleteHandler = new TopicDeleteHandler(topicMgr);
 module.exports.topic_delete = (event, context, callback) => { preHandler(topicDeleteHandler, event, context, callback) }
 
 const preHandler = (handler, event, context, callback) => {
-    console.log(event)
     if (!topicMgr.isSecretsSet()) {
         const kms = new AWS.KMS();
         kms.decrypt({
@@ -38,7 +37,7 @@ const doHandler = (handler, event, context, callback) => {
     handler.handle(event, context, (err, resp) => {
         let response
         if (err == null) {
-            let { code, headers, body } = resp
+            let { code, headers, body } = resp || {}
             response = {
                 statusCode: code || 200,
                 headers,

@@ -35,6 +35,7 @@ describe("TopicPostHandler", () => {
         });
 
         test("no topic id", async () => {
+            topicMgr.read.mockReturnValueOnce(null)
             await sut.handle({ pathParameters: {other: "thing"}, body: JSON.stringify(record)}, null, (err, res) => {
                 expect(err).toBeNull()
                 expect(res.code).toEqual(201)
@@ -44,6 +45,7 @@ describe("TopicPostHandler", () => {
         });
 
         test("happy path", async () => {
+            topicMgr.read.mockReturnValueOnce(true)
             await sut.handle({ pathParameters: {id: newTopicId}, body: JSON.stringify(record)}, null, (err, res) => {
                 expect(err).toBeNull();
                 expect(res.body.message).toEqual('updated');

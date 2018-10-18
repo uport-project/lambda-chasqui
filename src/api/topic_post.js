@@ -20,6 +20,11 @@ class TopicPostHandler {
             let topicId
             topicId = event.pathParameters.id
             try {
+                const topic = await this.topicMgr.read(topicId)
+                if (!topic) {
+                  cb({ code: 404, message: 'topic not found' })
+                  return
+                }
                 await this.topicMgr.update(topicId, body)
                 console.log("topic updated: " + topicId)
             } catch (error) {
