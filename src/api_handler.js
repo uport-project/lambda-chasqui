@@ -44,7 +44,7 @@ const doHandler = (handler, event, context, callback) => {
       let { code, headers, body } = resp || {}
       response = {
         statusCode: code || 200,
-        headers: { ...headers, ...corsHeaders },
+        headers: Object.assign(headers, corsHeaders),
         body: JSON.stringify(Object.assign({
           status: 'success'
         }, body))
