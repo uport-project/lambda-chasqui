@@ -9,7 +9,7 @@ const chasqui = require('../api_handler.js')
 
 /**********************************************************************
  * Fairly involved mock setup: AWS is mocked with a special library,
- * and pg is mocked with jest as an in-memory js object.  Postgres 
+ * and pg is mocked with jest as an in-memory js object.  Postgres
  * queries are inferred from their first word.
  *********************************************************************/
 
@@ -17,7 +17,7 @@ const AWS = require('aws-sdk')
 const MockAWS = require('aws-sdk-mock')
 MockAWS.setSDKInstance(AWS);
 
-// Create a mock postgres client which uses a js dict 
+// Create a mock postgres client which uses a js dict
 jest.mock('pg')
 const pg = require('pg')
 let db = {}
@@ -39,7 +39,7 @@ pg.Client = jest.fn().mockImplementation(() => ({
         break
       case 'UPDATE':
         if (id in db) db[id] = content
-        break 
+        break
       default:
         throw Error('Bad query: ', q)
     }
@@ -48,7 +48,7 @@ pg.Client = jest.fn().mockImplementation(() => ({
 
 /** Setup functions for each request type using lambda-local */
 const defaults = {
-  lambdaFunc: chasqui, 
+  lambdaFunc: chasqui,
   callbackWaitsForEmptyEventLoop: true,
   timeoutMs: 3000,
 }

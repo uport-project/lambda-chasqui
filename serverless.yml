@@ -39,9 +39,11 @@ functions:
       - http:
          path: topic
          method: post
+         cors: true
       - http:
          path: topic/{id}
          method: post
+         cors: true
          request:
             parameters:
               paths:
@@ -53,6 +55,7 @@ functions:
       - http:
           path: topic/{id}
           method: get
+          cors: true
           request:
             parameters:
               paths:
@@ -63,9 +66,10 @@ functions:
     description: Deletes a topic
     events:
       - http:
-         path: topic/{id}
-         method: delete
-         request:
-            parameters:
-              paths:
-                id: true
+        path: topic/{id}
+        method: delete
+        cors: true
+        request:
+          parameters:
+            paths:
+              id: true
