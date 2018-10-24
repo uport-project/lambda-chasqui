@@ -36,16 +36,15 @@ const preHandler = (handler, event, context, callback) => {
 const doHandler = (handler, event, context, callback) => {
   handler.handle(event, context, (err, resp) => {
     let response
+    let corsHeaders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    }
     if (err == null) {
       let { code, headers, body } = resp || {}
       response = {
         statusCode: code || 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-          'Access-Control-Allow-Headers': 'snaphuntjwttoken',
-          'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT'
-        },
+        headers: { ...headers, ...corsHeaders },
         body: JSON.stringify(Object.assign({
           status: 'success'
         }, body))
@@ -59,12 +58,7 @@ const doHandler = (handler, event, context, callback) => {
 
       response = {
         statusCode: code,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-          'Access-Control-Allow-Headers': 'snaphuntjwttoken',
-          'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT'
-        },
+        headers: corsHeaders,
         body: JSON.stringify({
           status: 'error',
           message: message
