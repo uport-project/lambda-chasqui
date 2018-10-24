@@ -55,7 +55,7 @@ functions:
       - http:
           path: topic/{id}
           method: get
-]         cors: true
+          cors: true
           request:
             parameters:
               paths:
@@ -69,7 +69,7 @@ functions:
         path: topic/{id}
         method: delete
         cors: true
-         request:
-            parameters:
-              paths:
-                id: true
+        request:
+          parameters:
+            paths:
+              id: true
