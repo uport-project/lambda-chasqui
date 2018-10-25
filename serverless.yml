@@ -66,10 +66,10 @@ functions:
     description: Deletes a topic
     events:
       - http:
-        path: topic/{id}
-        method: delete
-        cors: true
-        request:
-          parameters:
-            paths:
-              id: true
+          path: topic/{id}
+          method: delete
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
