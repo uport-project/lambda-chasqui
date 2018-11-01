@@ -38,7 +38,8 @@ const doHandler = (handler, event, context, callback) => {
     let response
     let corsHeaders = {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Expose-Headers': 'Location'
     }
     if (err == null) {
       let { code, headers, body } = resp || {}
