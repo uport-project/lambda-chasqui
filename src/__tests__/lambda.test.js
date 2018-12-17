@@ -78,7 +78,7 @@ beforeAll(() => {
   process.env.SECRETS = "badSecret";
 })
 
-describe('success paths', () => {
+describe.skip('success paths', () => {
   const content = {test: 'test'}
 
   test('POST /topic/ returns a new topic id in headers.location', (done) => {
@@ -120,7 +120,7 @@ describe('success paths', () => {
   })
 })
 
-describe('failure paths', () => {
+describe.skip('failure paths', () => {
   const unused = 'unusedtopicid123'
   beforeAll(() => {
     db = {}
