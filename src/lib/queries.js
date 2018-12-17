@@ -5,7 +5,6 @@ export const CREATE_QUERY = `
 export const READ_QUERY = `
   SELECT * FROM topics
   WHERE id=$1
-  AND expiration > now();
 `
 export const UPDATE_QUERY = `
   UPDATE topics 

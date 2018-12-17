@@ -12,7 +12,7 @@ class TopicMgr {
 
     constructor() {
         this.pgUrl = null
-        this.expiration = 60
+        this.expiration = 86400
     }
 
     isSecretsSet() {
