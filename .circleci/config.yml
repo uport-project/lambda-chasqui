@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/lambda-champagne
+    working_directory: ~/lambda-chasqui
     docker:
       - image: circleci/node:6.10
     steps:

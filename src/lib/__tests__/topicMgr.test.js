@@ -16,7 +16,7 @@ describe("TopicMgr", () => {
     let sut;
     let topicId = "fakeTopic";
     let content = "topic content"
-    let expiration = 60;
+    let expiration = 86400;
 
     beforeAll(() => {
         sut = new TopicMgr();
