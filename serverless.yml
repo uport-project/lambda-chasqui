@@ -47,7 +47,7 @@ functions:
          request:
             parameters:
               paths:
-                id: true
+                id: false
   topic_get:
     handler: src/api_handler.topic_get
     description: Retrieves a given topic
