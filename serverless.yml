@@ -32,17 +32,26 @@ custom:
   kmsSecrets: ${file(kms-secrets.${opt:stage, self:provider.stage}.${opt:region, self:provider.region}.yml)}
 
 functions:
-  topic_create:
-    handler: src/api_handler.topic_create
-    description: Creates a new topic
+  topic_post:
+    handler: src/api_handler.topic_post
+    description: Creates a new topic, or updates an existing one
     events:
+      - http:
+         path: topic
+         method: post
+         cors: true
       - http:
          path: topic/{id}
          method: post
+         cors: true
+         request:
+            parameters:
+              paths:
+                id: false
       - http:
          path: api/v1/topic/{id} #legacy
          method: post
-
+         cors: true
   topic_get:
     handler: src/api_handler.topic_get
     description: Retrieves a given topic
@@ -50,6 +59,7 @@ functions:
       - http:
           path: topic/{id}
           method: get
+          cors: true
           request:
             parameters:
               paths:
@@ -57,6 +67,7 @@ functions:
       - http:
           path: api/v1/topic/{id} #legacy
           method: get
+          cors: true
           request:
             parameters:
               paths:
@@ -67,15 +78,17 @@ functions:
     description: Deletes a topic
     events:
       - http:
-         path: topic/{id}
-         method: delete
-         request:
+          path: topic/{id}
+          method: delete
+          cors: true
+          request:
             parameters:
               paths:
                 id: true
       - http:
          path: api/v1/topic/{id} #legacy
          method: delete
+         cors: true
          request:
             parameters:
               paths:

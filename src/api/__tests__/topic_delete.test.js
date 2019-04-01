@@ -7,7 +7,8 @@ describe("TopicDeleteHandler", () => {
 
     beforeAll(() => {
         topicMgr = {
-            delete: jest.fn()
+            delete: jest.fn(),
+            read: jest.fn().mockReturnValue(true),
         };
         sut = new TopicDeleteHandler(topicMgr);
     });
@@ -28,12 +29,11 @@ describe("TopicDeleteHandler", () => {
         });
 
         test("happy path", async () => {
-             topicMgr.delete.mockReturnValue("ok");
+            topicMgr.delete.mockReturnValue("ok");
 
             await sut.handle({pathParameters: {id: topicId }}, {}, (err, res) => {
                 expect(err).toBeNull();
-            }
-            );
+            });
         });
 
     });
