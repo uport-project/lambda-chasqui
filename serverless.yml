@@ -39,6 +39,9 @@ functions:
       - http:
          path: topic/{id}
          method: post
+      - http:
+         path: api/v1/topic/{id} #legacy
+         method: post
 
   topic_get:
     handler: src/api_handler.topic_get
@@ -51,6 +54,13 @@ functions:
             parameters:
               paths:
                 id: true
+      - http:
+          path: api/v1/topic/{id} #legacy
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
 
   topic_delete:
     handler: src/api_handler.topic_delete
@@ -58,6 +68,13 @@ functions:
     events:
       - http:
          path: topic/{id}
+         method: delete
+         request:
+            parameters:
+              paths:
+                id: true
+      - http:
+         path: api/v1/topic/{id} #legacy
          method: delete
          request:
             parameters:
