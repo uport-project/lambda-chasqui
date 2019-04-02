@@ -31,10 +31,7 @@ describe("TopicGetHandler", () => {
 
     test("happy path, new topic", async () => {
       topicMgr.read.mockReturnValue(null);
-      topicMgr.create.mockReturnValue({
-        id: newTopicId,
-        content: ""
-      });
+      topicMgr.create.mockReturnValue(null);
 
       await sut.handle(
         { pathParameters: { id: newTopicId } },
@@ -42,10 +39,7 @@ describe("TopicGetHandler", () => {
         (err, res) => {
           expect(err).toBeNull();
           expect(res.body).toEqual({
-            message: {
-              id: newTopicId,
-              content: ""
-            }
+            message: {}
           });
         }
       );
