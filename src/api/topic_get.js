@@ -11,8 +11,9 @@ class TopicGetHandler {
             try {
                 topic = await this.topicMgr.read(topicId)
                 if (!topic){
-                    topic = await this.topicMgr.create(topicId)
+                    await this.topicMgr.create(topicId)
                     console.log("topic created: " + topicId);
+                    topic={};
                 }
             } catch (error) {
                 console.log("Error on this.topicMgr.create")
