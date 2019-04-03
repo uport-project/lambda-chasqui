@@ -64,6 +64,10 @@ functions:
             parameters:
               paths:
                 id: true
+  topic_get_legacy:
+    handler: src/api_handler.topic_get_legacy
+    description: Retrieves a given topic
+    events:
       - http:
           path: api/v1/topic/{id} #legacy
           method: get

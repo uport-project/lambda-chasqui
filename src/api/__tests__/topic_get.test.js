@@ -39,7 +39,7 @@ describe("TopicGetHandler", () => {
         (err, res) => {
           expect(err).toBeNull();
           expect(res.body).toEqual({
-            message: {}
+            message: null
           });
         }
       );
