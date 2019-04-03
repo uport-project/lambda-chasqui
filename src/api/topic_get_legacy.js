@@ -17,8 +17,10 @@ class TopicGetLegacyHandler {
                     console.log("topic created: " + topicId);
                     topic={};
                 }else{
-                    topic=topic.content;
-                    if(topic==null) topic={}
+                    if(topic.content==null) topic={}
+                    else{
+                        topic[topicId]=topic.content
+                    }
                 }
             } catch (error) {
                 console.log("Error on this.topicMgr.create")
