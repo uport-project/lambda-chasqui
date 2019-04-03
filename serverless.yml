@@ -66,7 +66,7 @@ functions:
                 id: true
   topic_get_legacy:
     handler: src/api_handler.topic_get_legacy
-    description: Retrieves a given topic
+    description: Retrieves a given topic (legacy version)
     events:
       - http:
           path: api/v1/topic/{id} #legacy

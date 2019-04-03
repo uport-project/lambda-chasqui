@@ -8,8 +8,10 @@ class TopicGetLegacyHandler {
             let topicId;
             let topic;
             topicId = event.pathParameters.id
+            console.log("topicId: "+topicId)
             try {
                 topic = await this.topicMgr.read(topicId)
+                console.log("topic(post read): "+topic)
                 if (!topic){
                     await this.topicMgr.create(topicId)
                     console.log("topic created: " + topicId);
@@ -24,6 +26,7 @@ class TopicGetLegacyHandler {
                 cb({ code: 500, message: error.message })
                 return;
             }
+            console.log("topic: "+topic)
             cb(null, { body: { message: topic } })
             return;
         } else {
