@@ -11,14 +11,14 @@ class TopicGetLegacyHandler {
             console.log("topicId: "+topicId)
             try {
                 topic = await this.topicMgr.read(topicId)
-                console.log("topic(post read): "+topic)
+                console.log("topic(post read): "+JSON.stringify(topic))
                 if (!topic){
                     await this.topicMgr.create(topicId)
                     console.log("topic created: " + topicId);
                     topic={};
                 }else{
+                    topic=topic.content;
                     if(topic==null) topic={}
-                    else topic=topic.content;
                 }
             } catch (error) {
                 console.log("Error on this.topicMgr.create")
