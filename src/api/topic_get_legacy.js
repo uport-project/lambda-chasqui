@@ -26,7 +26,7 @@ class TopicGetLegacyHandler {
                 cb({ code: 500, message: error.message })
                 return;
             }
-            console.log("topic: "+topic)
+            console.log("topic: "+JSON.stringify(topic))
             cb(null, { body: { message: topic } })
             return;
         } else {
