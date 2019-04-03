@@ -1,4 +1,4 @@
-class TopicGetHandler {
+class TopicGetLegacyHandler {
     constructor(topicMgr) {
         this.topicMgr = topicMgr
     }
@@ -13,6 +13,9 @@ class TopicGetHandler {
                 if (!topic){
                     await this.topicMgr.create(topicId)
                     console.log("topic created: " + topicId);
+                    topic={};
+                }else{
+                    topic=topic.content;
                 }
             } catch (error) {
                 console.log("Error on this.topicMgr.create")
@@ -32,4 +35,4 @@ class TopicGetHandler {
 
 }
 
-module.exports = TopicGetHandler
+module.exports = TopicGetLegacyHandler
