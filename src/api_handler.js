@@ -4,6 +4,7 @@ const AWS = require('aws-sdk')
 const TopicMgr = require('./lib/topicMgr')
 
 const TopicGetHandler = require('./api/topic_get')
+const TopicGetLegacyHandler = require('./api/topic_get_legacy')
 const TopicPostHandler = require('./api/topic_post')
 const TopicDeleteHandler = require('./api/topic_delete')
 
@@ -11,6 +12,9 @@ let topicMgr = new TopicMgr()
 
 let topicGetHandler = new TopicGetHandler(topicMgr)
 module.exports.topic_get = (event, context, callback) => { preHandler(topicGetHandler, event, context, callback) }
+
+let topicGetLegacyHandler = new TopicGetLegacyHandler(topicMgr)
+module.exports.topic_get_legacy = (event, context, callback) => { preHandler(topicGetLegacyHandler, event, context, callback) }
 
 let topicPostHandler = new TopicPostHandler(topicMgr)
 module.exports.topic_post = (event, context, callback) => { preHandler(topicPostHandler, event, context, callback) }
