@@ -19,7 +19,7 @@ class TopicGetLegacyHandler {
                 }else{
                     if(topic.content==null) topic={}
                     else{
-                        topic[topicId]=topic.content
+                        topic=JSON.parse(topic.content)
                     }
                 }
             } catch (error) {
