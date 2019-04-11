@@ -36,8 +36,8 @@ custom:
     topics:
       alarm: arn:aws:sns:us-west-2:113196216558:cloudwatch-alarm-to-slack
     definitions: 
-      functionDuration:
-        threshold: 6500 # override avereage duration alert
+      functionInvocations:
+        threshold: 1000 
     alarms:
       - functionThrottles
       - functionErrors
