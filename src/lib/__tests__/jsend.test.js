@@ -5,7 +5,13 @@ describe('createJsendHandler', () => {
     test('ok', (done) => {
         const handler = {
             handle: (event,context,cb) => {
-                cb(null,{good: "data"});
+                cb(null,{
+                    body: {
+                        message: {
+                            content: "good data"
+                        }
+                    }
+                });
                 return;
             }
         }
@@ -14,7 +20,7 @@ describe('createJsendHandler', () => {
             expect(err).toBeNull()
             expect(res).not.toBeNull()
             expect(res.statusCode).toEqual(200);
-            expect(res.body).toEqual('{\"status\":\"success\",\"data\":{\"good\":\"data\"}}');
+            expect(res.body).toEqual('{\"status\":\"success\",\"message\":{\"content\":\"good data\"}}');
             expect(res.headers['Access-Control-Allow-Origin']).toEqual('*')
             expect(res.headers['Access-Control-Allow-Credentials']).toEqual(true)
             done();
