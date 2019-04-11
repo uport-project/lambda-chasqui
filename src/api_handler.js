@@ -1,76 +1,30 @@
-'use strict'
-const AWS = require('aws-sdk')
+"use strict";
+const createJsendHandler = require("./lib/jsend");
+const createSecretsWrappedHandler = require("./lib/secrets_wrapper");
 
+//Load Mgrs
 const TopicMgr = require('./lib/topicMgr')
 
-const TopicGetHandler = require('./api/topic_get')
-const TopicGetLegacyHandler = require('./api/topic_get_legacy')
-const TopicPostHandler = require('./api/topic_post')
-const TopicDeleteHandler = require('./api/topic_delete')
-
+//Instanciate Mgr
 let topicMgr = new TopicMgr()
 
-let topicGetHandler = new TopicGetHandler(topicMgr)
-module.exports.topic_get = (event, context, callback) => { preHandler(topicGetHandler, event, context, callback) }
+//Mgr that needs secrets handling
+const secretsMgrArr=[topicMgr];
 
-let topicGetLegacyHandler = new TopicGetLegacyHandler(topicMgr)
-module.exports.topic_get_legacy = (event, context, callback) => { preHandler(topicGetLegacyHandler, event, context, callback) }
+//Load handlers
+const TopicGetHandler = require('./handlers/topic_get')
+const TopicGetLegacyHandler = require('./handlers/topic_get_legacy')
+const TopicPostHandler = require('./handlers/topic_post')
+const TopicDeleteHandler = require('./handlers/topic_delete')
 
-let topicPostHandler = new TopicPostHandler(topicMgr)
-module.exports.topic_post = (event, context, callback) => { preHandler(topicPostHandler, event, context, callback) }
+//Instanciate handlers
+const topicGetHandler = createJsendHandler(new TopicGetHandler(topicMgr));
+const topicGetLegacyHandler = createJsendHandler(new TopicGetLegacyHandler(topicMgr));
+const topicPostHandler = createJsendHandler(new TopicPostHandler(topicMgr));
+const topicDeleteHandler = createJsendHandler(new TopicDeleteHandler(topicMgr));
 
-let topicDeleteHandler = new TopicDeleteHandler(topicMgr)
-module.exports.topic_delete = (event, context, callback) => { preHandler(topicDeleteHandler, event, context, callback) }
-
-const preHandler = (handler, event, context, callback) => {
-  if (!topicMgr.isSecretsSet()) {
-    const kms = new AWS.KMS()
-    kms.decrypt({
-      CiphertextBlob: Buffer(process.env.SECRETS, 'base64')
-    }).promise().then(data => {
-      const decrypted = String(data.Plaintext)
-      topicMgr.setSecrets(JSON.parse(decrypted))
-      doHandler(handler, event, context, callback)
-    })
-  } else {
-    doHandler(handler, event, context, callback)
-  }
-}
-
-const doHandler = (handler, event, context, callback) => {
-  handler.handle(event, context, (err, resp) => {
-    let response
-    let corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-      'Access-Control-Expose-Headers': 'Location'
-    }
-    if (err == null) {
-      let { code, headers, body } = resp || {}
-      response = {
-        statusCode: code || 200,
-        headers: Object.assign({}, headers, corsHeaders),
-        body: JSON.stringify(Object.assign({
-          status: 'success'
-        }, body))
-      }
-    } else {
-      // console.log(err);
-      let code = 500
-      if (err.code) code = err.code
-      let message = err
-      if (err.message) message = err.message
-
-      response = {
-        statusCode: code,
-        headers: corsHeaders,
-        body: JSON.stringify({
-          status: 'error',
-          message: message
-        })
-      }
-    }
-
-    callback(null, response)
-  })
-}
+//Exports for serverless
+exports.topic_get   = createSecretsWrappedHandler(secretsMgrArr,topicGetHandler);
+exports.topic_get_legacy = createSecretsWrappedHandler(secretsMgrArr,topicGetLegacyHandler);
+exports.topic_post = createSecretsWrappedHandler(secretsMgrArr,topicPostHandler);
+exports.topic_delete = createSecretsWrappedHandler(secretsMgrArr,topicDeleteHandler);

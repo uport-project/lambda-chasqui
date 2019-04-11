@@ -1,5 +1,5 @@
-import { Client } from 'pg'
-import { CREATE_QUERY, READ_QUERY, UPDATE_QUERY, DELETE_QUERY } from './queries.js'
+const { Client } = require("pg");
+const { CREATE_QUERY, READ_QUERY, UPDATE_QUERY, DELETE_QUERY } = require('./queries.js')
 
 /**
  * @classdesc

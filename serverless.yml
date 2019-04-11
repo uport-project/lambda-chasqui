@@ -1,36 +1,50 @@
 service: lambda-chasqui
 
-provider:
-  name: aws
-  runtime: nodejs6.10
-  stage: develop
-  region: us-west-2
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-      - KMS:Decrypt
-      Resource: ${self:custom.kmsSecrets.keyArn}
-    - Effect: Allow
-      Action:
-      - s3:*
-      Resource: 'arn:aws:s3:::*'
+plugins:
+  - serverless-offline
+  - serverless-kms-secrets
+  - serverless-domain-manager
+  - serverless-plugin-aws-alerts
 
-  environment:
+provider:
+   name: aws
+   runtime: nodejs8.10
+   stage: develop
+   region: us-west-2
+   iamRoleStatements:
+     - Effect: Allow
+       Action:
+         - KMS:Decrypt
+       Resource: ${self:custom.kmsSecrets.keyArn}
+   environment:
       SECRETS: ${self:custom.kmsSecrets.secrets.SECRETS}
 
-
-# Use the serverless-webpack plugin to transpile ES6
-plugins:
-  - serverless-webpack
-  - serverless-kms-secrets
-
-# Enable auto-packing of external modules
 custom:
-  webpackIncludeModules: true
   serverless-kms-secrets:
     secretsFile: kms-secrets.${opt:stage, self:provider.stage}.${opt:region, self:provider.region}.yml
   kmsSecrets: ${file(kms-secrets.${opt:stage, self:provider.stage}.${opt:region, self:provider.region}.yml)}
+  domainName: 
+    develop: api.uport.space
+    master: api.uport.me
+  customDomain:
+    domainName: ${self:custom.domainName.${opt:stage, self:provider.stage}}
+    basePath: chasqui
+    createRoute53Record: false
+    baseUrl: https://${self:custom.customDomain.domainName}/${self:custom.customDomain.basePath}
+  alerts:
+    dashboards: true
+    topics:
+      alarm: arn:aws:sns:us-west-2:113196216558:cloudwatch-alarm-to-slack
+    definitions: 
+      functionDuration:
+        threshold: 6500 # override avereage duration alert
+    alarms:
+      - functionThrottles
+      - functionErrors
+      - functionInvocations
+      - functionDuration
 
+      
 functions:
   topic_post:
     handler: src/api_handler.topic_post
