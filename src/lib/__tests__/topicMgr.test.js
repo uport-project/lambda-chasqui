@@ -1,5 +1,5 @@
 jest.mock("pg");
-import { Client } from "pg";
+const { Client } = require("pg");
 let pgClientMock = {
   connect: jest.fn(),
   end: jest.fn()
@@ -9,7 +9,7 @@ Client.mockImplementation(() => {
 });
 
 const TopicMgr = require("../topicMgr");
-import { CREATE_QUERY, READ_QUERY, UPDATE_QUERY, DELETE_QUERY } from '../queries.js'
+const { CREATE_QUERY, READ_QUERY, UPDATE_QUERY, DELETE_QUERY } = require('../queries.js')
 
 
 describe("TopicMgr", () => {
