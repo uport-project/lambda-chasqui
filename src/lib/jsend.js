@@ -2,6 +2,7 @@ module.exports = createJsendHandler = (handler) => {
   return (event, context, callback) => {
     handler.handle(event, context, (err, resp) => {
       let response;
+      let extraHeaders;
       if (err === null) {
         let { code, headers, body } = resp || {};
         response = {
@@ -11,6 +12,7 @@ module.exports = createJsendHandler = (handler) => {
             ...body
           })
         };
+        extraHeaders = headers;
       } else {
         //console.log(err);
         let code = 500;
@@ -30,7 +32,8 @@ module.exports = createJsendHandler = (handler) => {
       //CORS
       response.headers={
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true
+        'Access-Control-Allow-Credentials': true,
+        ...extraHeaders
       };
 
       callback(null, response);
