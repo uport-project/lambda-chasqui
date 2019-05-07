@@ -90,7 +90,18 @@ functions:
             parameters:
               paths:
                 id: true
-
+  topic_get_raw:
+    handler: src/api_handler.raw_topic_get
+    description: Retrieves a given topic (no envelope)
+    events:
+      - http:
+          path: raw/topic/{id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
   topic_delete:
     handler: src/api_handler.topic_delete
     description: Deletes a topic
