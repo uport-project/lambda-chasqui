@@ -46,7 +46,11 @@ class TopicPostHandler {
           console.log("topic created: " + topicId)
           // Set topic after creating new one
           await this.topicMgr.update(topicId, body)
-          cb(null, { code: 201, body: { message: "created" }, headers: {Location: `/topic/${topicId}`} })
+          const retBody={
+            message: "created",
+            topicId: topicId
+          }
+          cb(null, { code: 201, body: retBody })
           return
         }
 
