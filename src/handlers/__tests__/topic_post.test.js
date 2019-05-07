@@ -40,7 +40,7 @@ describe("TopicPostHandler", () => {
                 expect(err).toBeNull()
                 expect(res.code).toEqual(201)
                 expect(res.body.message).toEqual('created')
-                expect(res.headers.Location).toMatch(/^\/topic\/[a-zA-Z0-9_-]{16}/)
+                expect(res.body.topicId).toMatch(/^[a-zA-Z0-9_-]{16}/)
               });
         });
 
